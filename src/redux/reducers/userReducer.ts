@@ -4,7 +4,7 @@ import { User, UserState } from '@/types/userTypes';
 
 const initialState: UserState = {
   allUsers: [],
-  loading: true,
+  loading: false,
   error: null,
 };
 
@@ -12,11 +12,8 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-    deleteUser: (state, action: PayloadAction<number>) => {
-      state.allUsers = state.allUsers.filter((user) => user.id !== action.payload);
+    setUsers(state, action: PayloadAction<User[]>) {
+      state.allUsers = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -25,18 +22,17 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getAllUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
+      .addCase(getAllUsers.fulfilled, (state, action) => {
         state.loading = false;
         state.allUsers = action.payload;
-        state.error = null;
       })
       .addCase(getAllUsers.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Cannot load all users';
+        state.error = action.error.message || 'Failed to fetch users';
       });
   },
 });
 
-export const { clearError, deleteUser } = userSlice.actions;
+export const { setUsers } = userSlice.actions;
 
 export default userSlice.reducer;

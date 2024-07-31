@@ -6,8 +6,8 @@ import StoreProvider from './StoreProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Somnio Software',
-  description: 'Somnio Software Challenge',
+  title: 'Challenge Improveet',
+  description: 'Challenge Improveet',
 };
 
 export default function RootLayout({
